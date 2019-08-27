@@ -14,7 +14,10 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * Discrete, weighted distribution sampler.
+ * Discrete, weighted distribution pseudo random generator.
+ * 
+ * <p/>
+ * FIXME: a better name
  */
 public class Sampler<T> implements Iterator<T> {
 
