@@ -4,7 +4,7 @@ Java library for compact, in-memory, representation of a large directed graph. T
 
 # Data Model
 
-* Nodes (vertices): Each node is identified an integral 2-tuple (node-type, node-id)
+* Nodes (vertices): Each node is identified by an integral 2-tuple (node-type, node-id)
 * Edges: Nodes are connected by user-defined integral edge types. Edges are directed: that is, an edge type has a notion of source and destination. An edge then is of the form ((src-node-type, src-node-id), edge-type, (dtn-node-type, dtn-node-id))
 * Navigation: Starting from a given node (node-type, node-id) it is possible to retrieve both edges in which this node is the source (outbound) or in which this node is the destination (inbound). For nodes with many edges, the retrieved edges may be qualified by edge-type, and then by node-type of the endpoint.
 
