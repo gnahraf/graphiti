@@ -17,7 +17,11 @@ import static com.gnahraf.util.datatypes.Primitives.unsign;
 import static com.gnahraf.util.datatypes.Primitives.unsignedShort;
 
 /**
- * Table of edges referencing node types.
+ * Table of edges referencing node types. Rows in this table are referenced from the
+ * {@linkplain AddressTable}. Each row here specifies a 2-byte {@linkplain
+ * com.gnahraf.graphiti.model.EdgeType EdgeType} that references a range of
+ * {@linkplain com.gnahraf.graphiti.model.NodeType NodeType}s in the {@linkplain
+ * NodeTypeTable}.
  */
 public class EdgeTable extends Table {
 
@@ -93,7 +97,7 @@ public class EdgeTable extends Table {
     }
 
     public void incrLastNodeTypeCount(int amount) {
-        int index = size() - 1;
+        int index = lastIndex();
 
         if (index < 0)
             throw new IllegalStateException("empty edge table");

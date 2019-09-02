@@ -13,7 +13,22 @@ import com.gnahraf.util.mem.Table;
 import java.util.List;
 
 /**
- * Created by babak on 6/18/15.
+ * Table of 2-byte {@linkplain NodeType}s referenced from the {@linkplain EdgeTable}.
+ * Each row here references a range of row numbers in the {@linkplain NodeIdTable}.
+ * 
+ * <h4>Limits</h4>
+ * 
+ * Row numbers greater than 16,777,215 in the {@linkplain NodeIdTable} are not addressable
+ * from here. This puts a silly, artificial cap on the number of edges on the entire graph.
+ * Needs fixing.
+ * 
+ * <p/>
+ * 
+ * FIXME: Expand row size by 1 byte in order to allow specifying larger row numbers in
+ * the {@linkplain NodeIdTable}. The maximum size of a Java byte array (2GB) will then be
+ * the governing constraint on the number of possible edges in a graph. (Adding a byte here
+ * shouldn't move the needle much on memory footprint.. should work out to way less than an
+ * extra byte per edge.)
  */
 public class NodeTypeTable extends Table {
 

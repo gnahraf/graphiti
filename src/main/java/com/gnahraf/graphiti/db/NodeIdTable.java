@@ -13,7 +13,8 @@ import com.gnahraf.util.mem.Table;
 import java.util.List;
 
 /**
- * Created by babak on 6/18/15.
+ * Single-column table of 3-byte node IDs referenced from the {@linkplain NodeTypeTable}. The entries
+ * here complete the specification of edges in our prefix encoded scheme.
  */
 public class NodeIdTable extends Table {
 

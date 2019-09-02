@@ -8,6 +8,11 @@ import com.gnahraf.util.datatypes.Pinterval;
 
 /**
  * A fixed-width table.
+ * 
+ * <h4>Limits</h4>
+ * 
+ * Max number of rows is 2B (2^31) / {@linkplain #itemSize()} since we're capped by
+ * the maximum length of a Java [byte] array.
  */
 public abstract class Table {
 

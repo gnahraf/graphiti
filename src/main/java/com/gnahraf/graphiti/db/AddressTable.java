@@ -40,12 +40,24 @@ import static com.gnahraf.util.datatypes.Primitives.*;
  *
  * }
  * </pre><br/>
- * The table is thus sorted by {@literal <N.TYPE><N.ID> }
+ * 
+ * The table is thus sorted by {@literal <N.TYPE><N.ID> } which can be considered a row's key:
+ * the row's data are 2 other "columns", which are indexes into the edge table each comprising of a
+ * range of row numbers in that table for both in-bound and out-bound edges.
+ * 
+ * <p/>
+ * 
+ * 
+ * 
+ * @see EdgeTable
  */
 public class AddressTable extends Table {
 
 
 
+	/**
+	 * A row in the address table. Each row represents a node.
+	 */
     public static class Address extends ShortIntId implements Comparable<Address> {
 
         private final int inEdgeRow;
@@ -81,10 +93,31 @@ public class AddressTable extends Table {
 
 
 
+        /**
+         * Returns the number of row edge types in the specified direction for this node.
+         * Note this is the number of edge <em>types</em>, which is likely fewer than the
+         * number of edges. These can number at most 64k.
+         * 
+         * @param inbound the direction (<tt>false</tt> for out-bound)
+         * 
+         * @return the number of rows in the edge table, possibly zero. 
+         * 
+         * @see #getEdgeRow(boolean)
+         */
         public int getEdgeRowCount(boolean inbound) {
             return inbound ? inEdgeRowCount : outEdgeRowCount;
         }
 
+        /**
+         * Returns the row number in the {@linkplain EdgeTable} for the first edge [type] in the
+         * given direction.
+         * 
+         * @param inbound the direction (<tt>false</tt> for out-bound)
+         * 
+         * @return the row number in the edge table, or zero if there's no such edge
+         * 
+         * @see #getEdgeRowCount(boolean)
+         */
         public int getEdgeRow(boolean inbound) {
             return inbound ? inEdgeRow : outEdgeRow;
         }
