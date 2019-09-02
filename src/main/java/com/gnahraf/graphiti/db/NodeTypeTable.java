@@ -32,7 +32,7 @@ import java.util.List;
  */
 public class NodeTypeTable extends Table {
 
-    public final static int ROW_WIDTH = Sizeof.SHORT + Sizeof.TRYTE + Sizeof.TRYTE;
+    public final static int ROW_WIDTH = Sizeof.SHORT + Sizeof.INT + Sizeof.TRYTE;
 
 
     private final List<NodeType> nodeTypes;
@@ -68,12 +68,12 @@ public class NodeTypeTable extends Table {
 
     public int getNodeIdRow(int index) {
         int offset = offset(index) + Sizeof.SHORT;
-        return data.getTryte(offset);
+        return data.getInt(offset);
     }
 
 
     public int getNodeIdCount(int index) {
-        int offset = offset(index) + Sizeof.SHORT + Sizeof.TRYTE;
+        int offset = offset(index) + Sizeof.SHORT + Sizeof.INT;
         return data.getTryte(offset);
     }
 
@@ -114,8 +114,8 @@ public class NodeTypeTable extends Table {
         int offset = offset(index);
         data.putShort(nodeType, offset);
         offset += Sizeof.SHORT;
-        data.putTryte(nodeIdRow, offset);
-        offset += Sizeof.TRYTE;
+        data.putInt(nodeIdRow, offset);
+        offset += Sizeof.INT;
         data.putTryte(nodeIdCount, offset);
 
         incrSize();
@@ -136,7 +136,7 @@ public class NodeTypeTable extends Table {
         if (amount < 0)
             throw new IllegalArgumentException("negative amount: " + amount);
 
-        int offset = offset(index) + Sizeof.SHORT + Sizeof.TRYTE;
+        int offset = offset(index) + Sizeof.SHORT + Sizeof.INT;
         int count = data.getTryte(offset) + amount;
         data.putTryte(count, offset);
     }
