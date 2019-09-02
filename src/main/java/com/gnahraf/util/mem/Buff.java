@@ -11,7 +11,11 @@ import com.gnahraf.util.datatypes.Primitives;
 import com.gnahraf.util.datatypes.Primitives.Sizeof;
 
 /**
- * An immutable boundary of memory.
+ * An immutable boundary of memory. Used for slicing and dicing byte arrays.
+ * <p/>
+ * A reminder to myself why I'm not using an nio.ByteBuffer instead of
+ * this class: ByteBuffers can be stateful even on <em>read</em> access.
+ * I want something simpler and thread-safe on read access. 
  */
 public class Buff implements Comparable<Buff> {
 
