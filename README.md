@@ -34,11 +34,11 @@ From unit test referenced above
 
 > avg node-type count per edge: 1.85
 
-> avg node-id count per node-type: 2.65
+> avg node-id count per node-type per edge-type: 2.65
 
-> size: 38MB
+> size: 40MB
 
-> avg bytes per edge: 16
+> avg bytes per edge: < 17
 
 
 
@@ -51,11 +51,13 @@ The current implementation is bound by the following limits
 * Node-type: unsigned 2-byte value
 * Node-id: unsigned 3-byte value (0 to 16,777,215)
 * Edge-type: unsigned 2-byte value
-* Max number of edges per node per edge-type: 64K
-  (That is, [unrealistically] accounting for a multitude of edge types, each node can have a maximum of 64K x 64k = 4B edges.)
+* Max number of edges: 357,913,941
+
+That maximum number of edges limit is an artifact of the max length of byte arrays in Java
+and integer based indexing. Scaling it a few fold more seems straightforward, if needed.
 
 # Development Options
 
-* Make hard limits configurable
+* Expand limits (or make tradeoffs configurable)
 * Add delete capability
 
