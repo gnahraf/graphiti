@@ -86,6 +86,25 @@ public class Graph {
     public float getAvgNodeIdCountPerNodeType() {
         return ((float) nodeIdTable.size() / nodeTypeTable.size());
     }
+    
+    
+    public int unusedMem() {
+    	return  addressTable.overhead() +
+    			edgeTable.overhead() +
+    			nodeTypeTable.overhead() +
+    			nodeIdTable.overhead();
+    }
+    
+    
+    /**
+     * Trims backing tables to minimium byte size.
+     */
+    public void trimMemToSize() {
+    	addressTable.trimToSize();
+    	edgeTable.trimToSize();
+    	nodeTypeTable.trimToSize();
+    	nodeIdTable.trimToSize();
+    }
 
 
 

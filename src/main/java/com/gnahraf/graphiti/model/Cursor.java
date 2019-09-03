@@ -60,27 +60,52 @@ public abstract class Cursor {
 
 
 
+    /**
+     * Returns a sorted list of {@linkplain EdgeType}s that connect in the given
+     * direction to the node this cursor is positioned on.
+     */
     public abstract List<EdgeType> getEdgeTypes(boolean inbound);
 
 
+    /**
+     * Returns the total number of edges in the given direction at this position.
+     */
     public abstract int getEdgeCount(boolean inbound);
 
 
+    /**
+     * Returns the total number of edges of the specified type in the given direction
+     * at this position.
+     */
     public abstract int getEdgeCount(boolean inbound, EdgeType edgeType);
 
-
+    /**
+     * Returns a sorted list of {@linkplain NodeType}s that connect in the given
+     * direction thru the specified edge type.
+     */
     public abstract List<NodeType> getNodeTypes(boolean inbound, EdgeType edgeType);
 
 
+    /**
+     * Returns the number of nodes of the given node type that connect thru the specified
+     * edge type in the given direction.
+     */
     public abstract int getEdgeCount(boolean inbound, EdgeType edgeType, NodeType nodeType);
 
 
+    /**
+     * Returns a sorted list of [unqualified] node IDs of the specified type, connected thru
+     * the given edge type and direction.
+     */
     public abstract List<Integer> getNodeIds(boolean inbound, EdgeType edgeType, NodeType nodeType);
 
 
-    public abstract List<ShortInt> getNodeIds();
+    /**
+     * Returns a sorted list of qualified node IDs known to the graph.
+     */
+    public abstract List<ShortInt> getQualifiedNodeIds();
 
     public boolean isEmpty() {
-        return getNodeIds().size() < 2;
+        return getQualifiedNodeIds().size() < 2;
     }
 }

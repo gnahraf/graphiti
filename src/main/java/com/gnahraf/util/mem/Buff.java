@@ -218,20 +218,12 @@ public class Buff implements Comparable<Buff> {
         checkIndexBounds(index, Sizeof.INT);
     }
 
-    private void checkLongIndexBounds(int index) {
-        checkIndexBounds(index, Sizeof.LONG);
-    }
 
     private void checkIndexBounds(int index, int count) {
         if (index < 0 || index + count > size)
             throw new IndexOutOfBoundsException(String.valueOf(index));
     }
 
-    private void getUnchecked(byte[] out, int outIndex) {
-        int srcEnd = offset + size;
-        for (int srcOff = offset; srcOff < srcEnd; )
-            out[outIndex++] = mem[srcOff++];
-    }
 
 
     private byte getUnchecked(int index) {

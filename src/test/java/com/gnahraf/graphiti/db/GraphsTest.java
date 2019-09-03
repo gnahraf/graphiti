@@ -46,7 +46,7 @@ public class GraphsTest {
         Graph graph = builder.build();
         Cursor cursor = graph.newCursor();
 
-        List<ShortInt> nodeIds = cursor.getNodeIds();
+        List<ShortInt> nodeIds = cursor.getQualifiedNodeIds();
         assertEquals(2, nodeIds.size());
         ShortInt srcNode = nodeIds.get(0);
         assertEquals(srcNodeType, srcNode.getType());
@@ -87,7 +87,7 @@ public class GraphsTest {
         Graph graph = builder.build();
         Cursor cursor = graph.newCursor();
 
-        List<ShortInt> nodeIds = cursor.getNodeIds();
+        List<ShortInt> nodeIds = cursor.getQualifiedNodeIds();
         assertTrue(nodeIds.contains(new ShortInt(srcNodeType, srcNodeId)));
         assertTrue(nodeIds.contains(new ShortInt(dtnNodeType, dtnNodeId)));
 
@@ -136,7 +136,7 @@ public class GraphsTest {
         Graph graph = builder.build();
 
         Cursor cursor = graph.newCursor();
-        List<ShortInt> nodes = cursor.getNodeIds();
+        List<ShortInt> nodes = cursor.getQualifiedNodeIds();
         for (ShortInt expected : expectedNodes) {
             assertTrue(nodes.contains(expected));
         }
@@ -210,7 +210,7 @@ public class GraphsTest {
         Graph graph = builder.build();
 
         Cursor cursor = graph.newCursor();
-        List<ShortInt> nodes = cursor.getNodeIds();
+        List<ShortInt> nodes = cursor.getQualifiedNodeIds();
         for (ShortInt expected : expectedNodes) {
             assertTrue(nodes.contains(expected));
         }
@@ -556,6 +556,14 @@ public class GraphsTest {
         System.out.println("<t:e>: " + formatter.format(c.getAvgNodeTypeCountPerEdgeType()));
         System.out.println("<i:t>: " + formatter.format(c.getAvgNodeIdCountPerNodeType()));
         System.out.println("bytes: " + formatter.format(c.getMemSize()));
+        
+        System.out.println();
+        System.out.println("Testing graph mem footprint trimming..");
+        System.out.println("======================================");
+        System.out.println("overhead bytes: " + formatter.format(c.unusedMem()));
+        c.trimMemToSize();
+        System.out.println("bytes (post trim): " + formatter.format(c.getMemSize()));
+        System.out.println("overhead  (post trim): " + formatter.format(c.unusedMem()));
 
     }
 

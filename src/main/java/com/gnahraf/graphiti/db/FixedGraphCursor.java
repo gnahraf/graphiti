@@ -210,7 +210,7 @@ public class FixedGraphCursor extends Cursor {
 
 
     @Override
-    public List<ShortInt> getNodeIds() {
+    public List<ShortInt> getQualifiedNodeIds() {
         return addressTable.getNodeIds();
     }
 }

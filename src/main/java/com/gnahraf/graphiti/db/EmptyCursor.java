@@ -59,7 +59,7 @@ public class EmptyCursor extends Cursor {
     }
 
     @Override
-    public List<ShortInt> getNodeIds() {
+    public List<ShortInt> getQualifiedNodeIds() {
         return Collections.emptyList();
     }
 }

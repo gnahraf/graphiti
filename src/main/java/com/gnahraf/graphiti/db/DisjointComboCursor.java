@@ -96,11 +96,11 @@ class DisjointComboCursor extends Cursor {
     }
 
     @Override
-    public List<ShortInt> getNodeIds() {
+    public List<ShortInt> getQualifiedNodeIds() {
         if (combined())
-            return Lists.distinctUnion(a.getNodeIds(), b.getNodeIds());
+            return Lists.distinctUnion(a.getQualifiedNodeIds(), b.getQualifiedNodeIds());
         else
-            return loadedCursor().getNodeIds();
+            return loadedCursor().getQualifiedNodeIds();
     }
 
 

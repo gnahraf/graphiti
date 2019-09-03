@@ -121,7 +121,7 @@ public abstract class Table {
 
 
     public int byteSize() {
-        return offset(size);
+        return data.size();
     }
 
 
@@ -137,7 +137,18 @@ public abstract class Table {
         if (capacity <= capacity())
             return;
 
-        int newCapacity = Math.max(capacity, capacity() * 3 / 2);
+        int defCap;
+        {
+        	int currentCap = capacity();
+        	defCap = currentCap + currentCap / 2;
+        	if (defCap < 0) {
+        		defCap = Integer.MAX_VALUE / itemSize();
+        		if (capacity > defCap)
+        			throw new IllegalStateException("overflow: " + capacity);
+        	}
+        }
+        
+        int newCapacity = Math.max(capacity, defCap);
         Buff buff = alloc(newCapacity * itemSize());
         data.copyInto(buff, 0);
         data = buff;
