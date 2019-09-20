@@ -46,7 +46,7 @@ public class Sampler<T> implements Iterator<T> {
     public int incrWeight(T item, int delta) {
         WeightedItem<T> w = universe.get(item);
         if (w == null) {
-            if (delta == 0)
+            if (delta <= 0)
                 return 0;
             w = new WeightedItem<T>(item, delta);
             universe.put(item, w);
