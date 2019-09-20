@@ -114,7 +114,8 @@ public class AddressTable extends Table {
          * 
          * @param inbound the direction (<tt>false</tt> for out-bound)
          * 
-         * @return the row number in the edge table, or zero if there's no such edge
+         * @return the row number in the edge table, or zero if there's no such edge. (Note common
+         *         case where zero <em>is</em> the valid row number.)
          * 
          * @see #getEdgeRowCount(boolean)
          */

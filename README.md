@@ -18,9 +18,11 @@ To quickly jump to its use, see the GraphsTest unit test https://github.com/gnah
 
 # Implementation
 
-This uses fixed width binary tables. The primary objective was efficient read-only access. There's support for writing (merging graphs), but nothing for delete. The reason why there's merge-support is that the procedure for *building* graphs (cf https://github.com/gnahraf/graphiti/blob/master/src/main/java/com/gnahraf/graphiti/db/GraphBuilder.java ) itself is not memory effecient; the output graph *is*. So in order to construct a big graph, you construct smaller ones and then merge them.
+This uses 4 fixed width binary tables. An address table links nodes (node-type, node-id) to 2 row ranges in the edge [type] table, one range for outbound, another for inbound. Each row in the edge [type] table in turn has an entry (row number + count) specifying a range of rows in the node type table; each row in the node type table specifies a range of entries in the node id table, and node id table is just a list of 3 byte (unsigned) integral values. (Why 3 bytes? Because without adding some indirection magic, we're still to limited 2^31 (max byte array length) / 4 (sizeof int) = 2^29; that is, a 4th byte only expands the *usable* address space by a factor of 32.) Rows in the address table are sorted by (node-type, node-id); rows in the other tables are sorted within the referenced ranges.
 
 Objects and values are loaded lazily. So while the library returns random access collection views of its contents (e.g. java.util.List), there's little memory overhead in obtaining a reference to such a view. And because these lists are sorted (and can be binary searched), there's often little reason to traverse them an element at a time.
+
+The primary objective was efficient read-only access. There's support for writing (merging graphs), but nothing for delete. The reason why there's merge-support is that the procedure for *building* graphs (cf https://github.com/gnahraf/graphiti/blob/master/src/main/java/com/gnahraf/graphiti/db/GraphBuilder.java ) itself is not memory effecient; the output graph *is*. So in order to construct a big graph, you construct smaller ones and then merge them.
 
 ### Example memory footprint
 

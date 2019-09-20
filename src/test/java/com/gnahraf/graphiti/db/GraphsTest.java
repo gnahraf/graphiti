@@ -320,7 +320,7 @@ public class GraphsTest {
         Cursor cursor = graph.newCursor();
 
         List<RandomGraphBuilder.EdgeDef> sampleEdges = builder.getExpectedDefs();
-        int i = 0;
+//        int i = 0;
         for (RandomGraphBuilder.EdgeDef edgeDef : sampleEdges) {
 //            System.out.println(++i + ". " + edgeDef);
             assertEdge(edgeDef.src, edgeDef.edgeType, edgeDef.dtn, cursor);
@@ -341,14 +341,19 @@ public class GraphsTest {
         builder.setSampleCount(1000);
         builder.generate(250000);
         Graph graph = builder.build();
+        System.out.println("testBigRandomGraph");
+        System.out.println("==================");
+        printStatsAndTrim(graph);
         Cursor cursor = graph.newCursor();
 
+        System.out.print("asserting edges.. ");
         List<RandomGraphBuilder.EdgeDef> sampleEdges = builder.getExpectedDefs();
-        int i = 0;
+//        int i = 0;
         for (RandomGraphBuilder.EdgeDef edgeDef : sampleEdges) {
 //            System.out.println(++i + ". " + edgeDef);
             assertEdge(edgeDef.src, edgeDef.edgeType, edgeDef.dtn, cursor);
         }
+        System.out.println("Done.");
     }
 
 
@@ -524,6 +529,9 @@ public class GraphsTest {
     @Test
     public void testModerateMerge() {
 
+        System.out.println("testModerateMerge");
+        System.out.println("=================");
+        
         RandomGraphBuilder builder = new RandomGraphBuilder();
         builder.setSampleCount(2);
         builder.generate(100);
@@ -532,7 +540,9 @@ public class GraphsTest {
         builder.generate(10000);
 
         Graph a = builder.setDistroRefreshPeriod(10000).generateGraph(90000);
+        printStatsAndTrim(a);
         Graph b = builder.clearBuilder().setDistroRefreshPeriod(30000).generateGraph(100000);
+        printStatsAndTrim(b);
         Graph c = new GraphMerger(a, b).merge();
 
         Cursor cursor = c.newCursor();
@@ -542,33 +552,28 @@ public class GraphsTest {
             assertEdge(edgeDef.src, edgeDef.edgeType, edgeDef.dtn, cursor);
         }
 
-//        try {
-//            Thread.sleep(200);
-//        } catch (InterruptedException ix) {
-//            fail();
-//        }
-        DecimalFormat formatter = new DecimalFormat("#,###.##");
-        System.out.println("testModerateMerge");
-        System.out.println("=================");
-        System.out.println("nodes: " + formatter.format(c.getNodeCount()));
-        System.out.println("edges: " + formatter.format(c.getEdgeCount() / 2) + " (sans inbound)");
-        System.out.println("<e:n>: " + formatter.format(c.getAvgEdgeTypeCountPerNode()));
-        System.out.println("<t:e>: " + formatter.format(c.getAvgNodeTypeCountPerEdgeType()));
-        System.out.println("<i:t>: " + formatter.format(c.getAvgNodeIdCountPerNodeType()));
-        System.out.println("bytes: " + formatter.format(c.getMemSize()));
-        
-        System.out.println();
-        System.out.println("Testing graph mem footprint trimming..");
-        System.out.println("======================================");
-        System.out.println("overhead bytes: " + formatter.format(c.unusedMem()));
-        c.trimMemToSize();
-        System.out.println("bytes (post trim): " + formatter.format(c.getMemSize()));
-        System.out.println("overhead  (post trim): " + formatter.format(c.unusedMem()));
+        printStatsAndTrim(c);
 
     }
 
 
 
+    private void printStatsAndTrim(Graph g) {
+        DecimalFormat formatter = new DecimalFormat("#,###.##");
+
+        int overhead = g.unusedMem();
+        g.trimMemToSize();
+        
+        System.out.println("nodes: " + formatter.format(g.getNodeCount()));
+        System.out.println("edges: " + formatter.format(g.getEdgeCount() / 2) + " (sans inbound)");
+        System.out.println("<e:n>: " + formatter.format(g.getAvgEdgeTypeCountPerNode()));
+        System.out.println("<t:e>: " + formatter.format(g.getAvgNodeTypeCountPerEdgeType()));
+        System.out.println("<i:t>: " + formatter.format(g.getAvgNodeIdCountPerNodeType()));
+        System.out.println("overhead bytes: " + formatter.format(overhead));
+        System.out.println("bytes (post trim): " + formatter.format(g.getMemSize()));
+        System.out.println();
+        
+    }
 
 
 }
